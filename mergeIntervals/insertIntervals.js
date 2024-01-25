@@ -1,18 +1,25 @@
 function insertInterval(interval, newInterval) {
   let result = [];
-  let start = 0;
-  let end = Infinity;
 
   for (let i = 0; i < interval.length; i++) {
     let currentInterval = interval[i];
-    if (currentInterval[0] > newInterval[1]) {
-      //   result.push(currentInterval);
+    if (newInterval[1] < currentInterval[0]) {
+      //non overlapping
+      result.push(newInterval);
+      result.push(currentInterval);
+      return result;
+    } else if (newInterval[0] > currentInterval[1]) {
+      // non overlapping
+      result.push(currentInterval);
     } else {
-      start = Math.min(currentInterval[0], newInterval[0]);
-      end = Math.max(currentInterval[1], newInterval[1]);
-      result.push([start, end]);
+      //overlapping
+      newInterval = [
+        Math.min(currentInterval[0], newInterval[0]),
+        Math.max(currentInterval[1], newInterval[1]),
+      ];
     }
   }
+  result.push(newInterval);
   return result;
 }
 
